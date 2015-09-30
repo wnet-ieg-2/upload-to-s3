@@ -47,6 +47,7 @@ function AWSexecuteOnSignedUrl(file, callback) {
 
 function AWSuploadFile(thisobj) {
   var that = thisobj.parents("div.s3uploader");
+  $('.statusblock', that).show(); 
   var file = $('.file_to_upload', that).get(0).files[0];
   AWSexecuteOnSignedUrl(file, function(signedURL){
     AWSuploadToS3(file, signedURL, that);
@@ -112,10 +113,10 @@ function AWSsetProgress(percentage, statusLabel, obj) {
   $('.s3-post-upload-status', obj).text(statusLabel);
 }
 
-
-$("input[type='text'].upload_to_s3").wrap('<div class="s3uploader"></div>');
-$("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket:</p><input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button><div class="status">Upload status: <span class="s3-post-upload-status"></span></div><div class="progress">Progress: <span class="s3-percent-transferred"></span></div></div>');
-
+if (wp_script_vars.aws_bucket) {
+  $("input[type='text'].upload_to_s3").wrap('<div class="s3uploader"></div>');
+  $("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket:</p><input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button><div class="statusblock" style="display:none;"><div class="status">Upload status: <span class="s3-post-upload-status"></span></div><div class="progress">Progress: <span class="s3-percent-transferred"></span>%</div></div></div>');
+}
 $('.s3uploader button.button').click(function(event) {
   event.preventDefault();
   AWSuploadFile( $(this) );
