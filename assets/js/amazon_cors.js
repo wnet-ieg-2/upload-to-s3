@@ -68,7 +68,7 @@ function AWSuploadToS3(file, url, obj) {
     xhr.onload = function() {
       if(xhr.status == 200)
       {
-        AWSsetProgress(100, 'Upload completed.', obj);
+        AWSsetProgress(100, 'Completed.', obj);
         var publicurl = 'https://s3.amazonaws.com/' + wp_script_vars.aws_bucket;
         if (wp_script_vars.proxy_host) {
           publicurl = wp_script_vars.proxy_host;
@@ -79,6 +79,8 @@ function AWSuploadToS3(file, url, obj) {
         
         publicurl = publicurl + '/' + slug;
         $('.upload_to_s3', obj).val(publicurl);
+        var sizestr = file.size ? file.size : file.fileSize;
+        $('.s3-total-bytes', obj).text(sizestr + " bytes");
       }
       else
       {
@@ -115,7 +117,7 @@ function AWSsetProgress(percentage, statusLabel, obj) {
 
 if (wp_script_vars.aws_bucket) {
   $("input[type='text'].upload_to_s3").wrap('<div class="s3uploader"></div>');
-  $("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket:</p><input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button><div class="statusblock" style="display:none;"><div class="status">Upload status: <span class="s3-post-upload-status"></span></div><div class="progress">Progress: <span class="s3-percent-transferred"></span>%</div></div></div>');
+  $("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket:</p><input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button><div class="statusblock" style="display:none;"><span class="status">Upload status: <span class="s3-post-upload-status"></span> </span><span class="progress">Progress: <span class="s3-percent-transferred"></span>% <progress class="s3-upload-progress"></progress> <span class="s3-total-bytes"></span></span></div></div>');
 }
 $('.s3uploader button.button').click(function(event) {
   event.preventDefault();
