@@ -19,7 +19,9 @@ function AWScreateCORSRequest(method, url) {
   return xhr;
 }
 
-
+function convertToSlug(Text) {
+    return Text.replace(/ /g,'_').replace(/[^\w_.]+/g,'');
+}
 
 /**
  * Execute the given callback with the signed response.
@@ -30,7 +32,7 @@ function AWSexecuteOnSignedUrl(file, callback) {
     url: ajaxurl,
     data:{
       'action': 'upload_to_s3_sign_aws_request',
-      'slug': file.name,
+      'slug': convertToSlug(file.name),
       'fileinfo': file.type
     },
     dataType:'text',
@@ -59,7 +61,7 @@ function AWSuploadFile(thisobj) {
  * parameter has been signed and is accessible for upload.
  */
 function AWSuploadToS3(file, url, obj) {
-  var slug = file.name;
+  var slug = convertToSlug(file.name);
   var xhr = AWScreateCORSRequest('PUT', url);
   if (!xhr) {
     AWSsetProgress(0, 'CORS not supported', obj);
