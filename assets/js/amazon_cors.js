@@ -117,7 +117,7 @@ function AWSsetProgress(percentage, statusLabel, obj) {
 
 if (wp_script_vars.aws_bucket) {
   $("input[type='text'].upload_to_s3").wrap('<div class="s3uploader"></div>');
-  $("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket:</p><input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button><div class="statusblock" style="display:none;"><span class="status">Upload status: <span class="s3-post-upload-status"></span> </span><span class="progress">Progress: <span class="s3-percent-transferred"></span>% <progress class="s3-upload-progress"></progress> <span class="s3-total-bytes"></span></span></div></div>');
+  $("div.s3uploader").append('<div class="uploadblock"><p>Select a file to upload to your S3 bucket: <input type=file class="file_to_upload">&nbsp;<button class="button">Upload the selected file</button></p><div class="statusblock" style="display:none;"><span class="status">Upload status: <span class="s3-post-upload-status"></span> </span><span class="progress">Progress: <span class="s3-percent-transferred"></span>% <progress class="s3-upload-progress"></progress> <span class="s3-total-bytes"></span></span></div></div>');
 }
 $('.s3uploader button.button').click(function(event) {
   event.preventDefault();
