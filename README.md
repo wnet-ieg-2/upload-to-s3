@@ -44,3 +44,10 @@ However, a particularly tricky part of S3 Bucket setup is getting the 'policy' w
         }
     ]
     }
+
+## Credits
+
+The AWS CORS file upload stuff is adapted from Carson McDonald's work on this blog post
+http://www.ioncannon.net/programming/1539/direct-browser-uploading-amazon-s3-cors-fileapi-xhr2-and-signed-puts/
+
+
