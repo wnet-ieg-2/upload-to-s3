@@ -14,9 +14,13 @@ Upload access to your bucket is setup in AWS via the AWS 'IAM' system. Any user(
 If there is no key pair set (either the global pair if you use shared credentials, or the individual users' key pair if you use individual credentials), the S3 file uploader will not appear.
 
 ### AWS S3 Bucket setup
-Setting up an Amazon Web Services (AWS) account and using their S3 service to create a 'bucket' for file storage is beyond the scope of this documentation.  Creating and managing users for AWS services using their Identity and Access Management (IAM) system is also beyond the scope of this documentation.  http://aws.amazon.com is your best resource for performing that end of the setup and finding how to do so.
+Setting up an Amazon Web Services (AWS) account and using their S3 service to create a 'bucket' for file storage is beyond the scope of this documentation.  I have a blog post detailing how to do this in some detail at 
 
-However, a particularly tricky part of S3 Bucket setup is getting the 'policy' working right.  If you are using a user or group policy to manage read/write access to the bucket (a good idea), make sure your policy includes permission for 'S3:PutObjectAcl'.  Here's a sample group policy for a bucket named 'files.xyz.com':
+http://ieg.wnet.org/blog/setting-up-an-aws-s3-bucket-for-read-only-web-access/
+
+The post above also goes into detail about creating and managing users for AWS services using their Identity and Access Management (IAM) system.
+
+One particularly tricky part of S3 Bucket setup is getting the 'policy' working right.  If you are using a user or group policy to manage read/write access to the bucket (a good idea), make sure your policy includes permission for 'S3:PutObjectAcl'.  Here's a sample group policy for a bucket named 'files.xyz.com':
 
     {
     "Version": "2012-10-17",
