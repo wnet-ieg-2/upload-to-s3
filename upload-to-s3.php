@@ -250,6 +250,8 @@ class uploadToS3 {
       $aws_access_secret = $aws_credentials['aws_access_secret'];
     }
     if (!empty($aws_access_key) && !empty($aws_access_secret) && !empty($settings['aws_bucket'] ) ) {
+      // this signing code adapted from Carson McDonald -- 
+      // http://www.ioncannon.net/programming/1539/direct-browser-uploading-amazon-s3-cors-fileapi-xhr2-and-signed-puts/
       $SIGNPUT_S3_KEY = $aws_access_key;
       $SIGNPUT_S3_SECRET = $aws_access_secret;
       $SIGNPUT_S3_BUCKET= '/' . $settings['aws_bucket'];
