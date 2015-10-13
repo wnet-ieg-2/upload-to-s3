@@ -20,7 +20,7 @@ function AWScreateCORSRequest(method, url) {
 }
 
 function convertToSlug(Text) {
-    return Text.replace(/ /g,'_').replace(/[^\w_.]+/g,'');
+    return Text.replace(/ /g,'_').replace(/[^\w_.-]+/g,'');
 }
 
 /**
