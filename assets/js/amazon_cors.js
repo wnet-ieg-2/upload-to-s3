@@ -52,6 +52,7 @@ function AWSexecuteOnSignedUrl(file, callback) {
 function AWSuploadFile(thisobj) {
   var that = thisobj.parents("div.s3uploader");
   $('.statusblock', that).show(); 
+  $('.upload_to_s3', that).val('');
   var file = $('.file_to_upload', that).get(0).files[0];
   AWSexecuteOnSignedUrl(file, function(signedURL){
     AWSuploadToS3(file, signedURL, that);
@@ -83,6 +84,13 @@ function AWSuploadToS3(file, url, obj) {
         
         publicurl = publicurl + '/' + slug;
         $('.upload_to_s3', obj).val(publicurl);
+        $('.upload_to_s3', obj).prop({readOnly: true});
+        $('.file_to_upload', obj).prop({disabled: true});
+        $('.uploadblock', obj).prepend('<span class="make_rw"><a>Change URL</a> <i><b>Warning:</b> Manually editing the URL removes any connection to the file you just uploaded.</i></span>');
+        $('.make_rw a', obj).click(function(event){
+          event.preventDefault();
+          resetUploadStatus($(this));
+        });
         var sizestr = file.size ? file.size : file.fileSize;
         $('.s3-total-bytes', obj).text(sizestr + " bytes");
       }
@@ -117,6 +125,19 @@ function AWSuploadToS3(file, url, obj) {
 function AWSsetProgress(percentage, statusLabel, obj) {
   $('.s3-percent-transferred', obj).text(percentage);
   $('.s3-post-upload-status', obj).text(statusLabel);
+}
+
+function resetUploadStatus(obj) {
+  var that = obj.parents("div.s3uploader");
+  $('.upload_to_s3', that).prop({readOnly: false});
+  $('.make_rw', that).remove();
+  $('.file_to_upload', that).prop({disabled: false});
+  AWSsetProgress(0, 'New file', that);
+  $('.s3-upload-progress', that).attr({
+    value: 0,
+    max:0 
+  });
+  $('.s3-total-bytes', that).text('');
 }
 
 if (wp_script_vars.aws_bucket) {
