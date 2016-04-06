@@ -52,13 +52,13 @@ class uploadToS3 {
 
     $settings = get_option('upload_to_s3_settings'); 
     $aws_bucket = $settings['aws_bucket'];
-    $aws_access_key =  $settings['aws_access_key'];
-    $aws_access_secret = $settings['aws_access_secret'];
+    $aws_access_key = ($settings['aws_access_key'] ? $settings['aws_access_key'] : false);
+    $aws_access_secret = ($settings['aws_access_secret'] ? $settings['aws_access_secret']  : false);
     if ($settings['shared_credentials'] != 'TRUE') {
       $user_id = get_current_user_id();
       $aws_credentials = get_user_meta( $user_id, $this->token . '_credentials', true );
-      $aws_access_key = $aws_credentials['aws_access_key'];
-      $aws_access_secret = $aws_credentials['aws_access_secret'];
+      $aws_access_key = (!empty($aws_credentials['aws_access_key']) ? $aws_credentials['aws_access_key'] : false);
+      $aws_access_secret = (!empty($aws_credentials['aws_access_secret']) ? $aws_credentials['aws_access_secret'] : false);
     }
     if (! $aws_access_key || ! $aws_access_secret){
       // the localized script does nothing if the aws_bucket is null
@@ -222,8 +222,8 @@ class uploadToS3 {
     }
     $aws_credentials = get_user_meta( $user->ID, $this->token . '_credentials', true );
     echo '<h3>AWS credentials for S3 bucket "' . $settings['aws_bucket'] . '"</h3>';
-    echo 'AWS Access Key: <input type="text" value="' . $aws_credentials['aws_access_key'] . '" name="' . $this->token . '_credentials[aws_access_key]" class="regular-text" /><br />';
-    echo 'AWS Access Secret: <input type="text" value="' . $aws_credentials['aws_access_secret'] . '" name="' . $this->token . '_credentials[aws_access_secret]" class="large-text" />';
+    echo 'AWS Access Key: <input type="text" value="' . (!empty($aws_credentials['aws_access_key']) ? $aws_credentials['aws_access_key'] : '') . '" name="' . $this->token . '_credentials[aws_access_key]" class="regular-text" /><br />';
+    echo 'AWS Access Secret: <input type="text" value="' . (!empty($aws_credentials['aws_access_secret']) ? $aws_credentials['aws_access_secret'] : '') . '" name="' . $this->token . '_credentials[aws_access_secret]" class="large-text" />';
   }
   
   public function update_personal_options( $user_id ) {
