@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Upload To S3 
- * Version: 0.1 
+ * Version: 1.1 
  * Plugin URI: http://ieg.wnet.org/
  * Description: Upload from your form directly to your AWS S3 bucket and get the URL back
  * Author: William Tam
@@ -20,6 +20,7 @@ class uploadToS3 {
   private $assets_dir;
   private $assets_url;
   private $token;
+  private $version;
 
   public function __construct( $file ) {
     $this->dir = dirname( $file );
@@ -27,6 +28,7 @@ class uploadToS3 {
 		$this->assets_dir = trailingslashit( $this->dir ) . 'assets';
 		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', $file ) ) );
     $this->token = 'upload_to_s3';
+    $this->version = 1.1;
 
     // Register plugin settings
     add_action( 'admin_init' , array( $this , 'register_settings' ) );
@@ -47,8 +49,7 @@ class uploadToS3 {
 
 
   public function setup_admin_scripts() {
-    wp_register_script( 'upload_to_s3_amazon_cors', $this->assets_url . 'js/amazon_cors.js', array( 'jquery' ), 1, true);
-//    wp_enqueue_style( 'cove_asset', $this->assets_url . 'css/metaboxes.css' );
+    wp_register_script( 'upload_to_s3_amazon_cors', $this->assets_url . 'js/amazon_cors.js', array( 'jquery' ), $this->version, true);
 
     $settings = get_option('upload_to_s3_settings'); 
     $aws_bucket = $settings['aws_bucket'];
